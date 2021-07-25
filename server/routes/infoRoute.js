@@ -13,4 +13,9 @@ router
   .patch(infoController.updateInfo)
   .delete(infoController.deleteInfo);
 
+  router
+  .route('/:id')
+  .patch(infoController.updateInfo)
+  .delete(infoController.deleteInfo);
+
 module.exports = router;

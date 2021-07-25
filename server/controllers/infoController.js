@@ -7,12 +7,13 @@ const AppError = require('./../utils/appError');
 
 exports.getInfo = catchAsync(async (req, res, next) => {
   const info = await Info.findOne({ userId: req.user._id });
+  console.log(info);
 
-  if(req.user._id && !info) {
-  return  res.status(200).json({
-        status: 'Update info!!!',
-        msg: `hello there! ${req.user.name}`
-      });
+  if (req.user._id && !info) {
+    return res.status(200).json({
+      status: 'Update info!!!',
+      msg: `hello there! ${req.user.name}`,
+    });
   }
 
   res.status(200).json({
@@ -24,6 +25,15 @@ exports.getInfo = catchAsync(async (req, res, next) => {
 });
 
 exports.postInfo = catchAsync(async (req, res, next) => {
+  const info = await Info.findOne({ userId: req.user._id });
+
+  console.log(info, req.user);
+  if (info) {
+    return res.status(200).json({
+      msg: 'already data present',
+    });
+  }
+
   const {
     name,
     image,
@@ -49,6 +59,8 @@ exports.postInfo = catchAsync(async (req, res, next) => {
     userId: req.user._id,
   });
 
+  await newInfo.save();
+
   res.status(201).json({
     status: 'success',
     data: {
@@ -58,13 +70,13 @@ exports.postInfo = catchAsync(async (req, res, next) => {
 });
 
 exports.updateInfo = catchAsync(async (req, res, next) => {
-  const info = await Info.findByIdAndUpdate(req.user._id, req.body, {
+  const info = await Info.findOneAndUpdate(req.params.id, req.body, {
     new: true,
     runValidators: true,
   });
 
   if (!info) {
-    return next(new AppError('No tour with that id', 404));
+    return next(new AppError('No user data', 404));
   }
 
   res.status(200).json({
@@ -76,9 +88,9 @@ exports.updateInfo = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteInfo = catchAsync(async (req, res, next) => {
-  const info = await Info.findByIdAndDelete(req.user._id);
+  const info = await Info.findByIdAndDelete(req.params.id);
   if (!info) {
-    return next(new AppError('No tour with that id', 404));
+    return next(new AppError('No user data', 404));
   }
   res.status(204).json({
     status: 'Great Success!!!',
