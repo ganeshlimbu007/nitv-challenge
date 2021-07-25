@@ -9,6 +9,8 @@ process.on('uncaughtException', err => {
     process.exit(1);
 });
 
+require('./models/User');
+require('./models/Info');
 const app = require("./app");
 
 
