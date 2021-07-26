@@ -1,12 +1,13 @@
 const express = require('express');
-const mongoose = require("mongoose");
+const cors = require('cors');
+const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const User = mongoose.model('User');
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', cors(), async (req, res) => {
   const { name, password } = req.body;
 
   if (!name || !password) {
@@ -16,26 +17,31 @@ router.post('/', async (req, res) => {
   const user = await User.findOne({ name });
 
   if (!user) {
-      // if user does not exist just sign up and sign in
+    // if user does not exist just sign up and sign in
     try {
+
+      console.log('hello there sign up')
       const user = new User({ name, password });
 
       await user.save();
       const token = jwt.sign({ userId: user._id }, 'PASS_ME');
-      res.send({ token: token, message: 'Welcome new user' });
+      return res.send({ token: token, message: 'Welcome new user', isLoggedIn: true });
     } catch (err) {
-      res.status(422).send(err.message);
+      console.log('hello there sign up error', err)
+      return res.status(422).send(err.message);
     }
-  }
+  } else {
+    // if user exist see if password matches and sign in
 
-   // if user exist see if password matches and sign in
-
-  try {
-    await user.comparePassword(password);
-    const token = jwt.sign({ userId: user._id }, 'PASS_ME');
-    res.send({ token: token, message: 'Welcome Back!'  });
-  } catch (err) {
-    return res.status(422).send('Password invalid!');
+    try {
+      console.log('hello there sign in')
+      await user.comparePassword(password);
+      const token = jwt.sign({ userId: user._id }, 'PASS_ME');
+      res.send({ token: token, message: 'Welcome Back!', isLoggedIn: true });
+    } catch (err) {
+      console.log('hello there sign in error', err)
+      return res.status(422).send('Password invalid!');
+    }
   }
 });
 

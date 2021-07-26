@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
@@ -8,14 +9,16 @@ const AppError = require('./utils/appError');
 const globalErrorController = require("./controllers/errorController");
 
 const app = express();
+app.use(cors())
 app.use(bodyParser.json());
+
 
 //middlewares
 app.use(express.json());
 
 //route
-app.use('/signin', authRoute);
-app.use('/getinfo', infoRoute);
+app.use('/api/signin', authRoute);
+app.use('/api/users', infoRoute);
 
 
 app.all("*", (req, res, next) => {
