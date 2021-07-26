@@ -1,1 +1,101 @@
-<p>user-form works!</p>
+<div class="container mt-4">
+
+  <form [formGroup]="userForm" (ngSubmit)="submitUserInfo()" novalidate>
+
+    <div class="form-group form__group ">
+      <label class="form__label-1">Name</label>
+      <input type="text" class="col-md-8" id="name" formControlName="name" required />
+    </div>
+
+    <div class="form-group form__group ">
+      <label class="form__label-1">Add Image</label>
+      <input type="text" class="col-md-8" id="name" formControlName="image" required />
+    </div>
+
+
+    <div class="form-group">
+      <label class="">Gender</label>
+      <div class="form-check form-check-inline mr-2">
+        <input class="form-check-input" type="radio" name="gender" formControlName="gender" id="inlineRadio1"
+          value="male">
+        <label class="form-check-label" for="inlineRadio1">Male</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" formControlName="gender" id="inlineRadio2"
+          value="female">
+        <label class="form-check-label" for="inlineRadio2">Female</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" formControlName="gender" id="inlineRadio3"
+          value="undisclosed">
+        <label class="form-check-label" for="inlineRadio3">Do not want to disclose</label>
+      </div>
+    </div>
+
+    <div class="form-group form__group">
+      <label class="form__label-1">Phone</label>
+      <input type="tel" class="col-md-8" id="phone" formControlName="phone" required />
+    </div>
+
+    <div class="form-group form__group ">
+      <label class="form__label-1">Email</label>
+      <input type="email" class="col-md-8" id="email" formControlName="email" required />
+    </div>
+
+
+    <div class="form-group form__group  col-md-8">
+      <label class="form__label-1">Nationality</label>
+      <select class="form-control" id="nationality" (change)="selectNationality($event)"
+        formControlName="nationality">
+        <option class="" value=null>Choose Nationality</option>
+        <option *ngFor="let country of  getCountries()" value="{{ country.name }}">
+          {{ country.name }}
+        </option>
+      </select>
+    </div>
+
+    <div class="form-group form__group ">
+      <label class="form__label-1">Date of Birth</label>
+      <input type="date" class="col-md-8" id="dob" formControlName="dob" required />
+    </div>
+
+
+
+    <div class="form-group">
+      <label class="form__label-1">Preferred Mode Of Contact</label>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="preferredModeOfContact"
+          formControlName="preferredModeOfContact" id="inlineRadio1" value="phone">
+        <label class="form-check-label" for="inlineRadio1">Phone</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="preferredModeOfContact"
+          formControlName="preferredModeOfContact" id="inlineRadio2" value="email">
+        <label class="form-check-label" for="inlineRadio2">Email</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="preferredModeOfContact"
+          formControlName="preferredModeOfContact" id="inlineRadio3" value="none">
+        <label class="form-check-label" for="inlineRadio3">None</label>
+      </div>
+    </div>
+
+
+    <!--Save buttons-->
+    <div class="col-md-8">
+
+      <p align="right">
+        <button type="button" class="btn btn-primary icon-btn icon-btn-shadow mr-1 mt-4" title="Save"
+          (click)="submitUserInfo()">
+          <i class="fas fa-save btn-fa"></i>Save
+          <!-- Save   -->
+        </button>
+      </p>
+
+    </div>
+    <!--Save buttons end-->
+
+
+  </form>
+
+</div>

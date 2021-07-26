@@ -23,7 +23,6 @@ export class AuthServiceService {
 
   isAuthenticated = false;
   redirectUrl: string;
-
   constructor(private http: HttpClient) {}
 
   private userAuthChanged(status: boolean) {

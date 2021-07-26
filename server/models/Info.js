@@ -44,7 +44,6 @@ const infoSchema = new mongoose.Schema({
     {
       education: {
         type: String,
-        required: [true, 'must provide education background'],
       },
     },
   ],

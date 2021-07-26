@@ -6,20 +6,13 @@ const catchAsync = require('../utils/catchAsync');
 const AppError = require('./../utils/appError');
 
 exports.getInfo = catchAsync(async (req, res, next) => {
-  const info = await Info.findOne({ userId: req.user._id });
-  console.log(info);
-
-  if (req.user._id && !info) {
-    return res.status(200).json({
-      status: 'Update info!!!',
-      msg: `hello there! ${req.user.name}`,
-    });
-  }
+  const userInfos = await Info.find();
+  console.log(userInfos);
 
   res.status(200).json({
     status: 'Great Success!!!',
     data: {
-      info,
+      info: userInfos,
     },
   });
 });

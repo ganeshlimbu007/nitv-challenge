@@ -1,0 +1,78 @@
+.form {
+  &__group {
+    position: relative;
+
+    &:not(:last-child) {
+      margin-bottom: 1.4em;
+    }
+
+    &>*:not(&__radio) {
+      display: block;
+    }
+  }
+
+  //radio-input
+  &__radio {
+    margin-bottom: 2em;
+
+    &-label2,
+    &-group {
+      display: inline-block;
+      min-width: 30%;
+    }
+
+  }
+
+
+  &__ip {
+    // input type text
+
+    font-size: 1em;
+    font-family: inherit;
+    padding: .5em 1em;
+    border: 1px solid rgba(black, 0.3);
+    background-color: rgba(white, 0.5);
+    // position: relative;
+
+
+
+    &-squared {
+      border-radius: none;
+    }
+
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 .2em .4em rgba(black, 0.3);
+      border-bottom: 3px solid black;
+
+      &::placeholder:not(.placeholder-not) {
+        color: transparent;
+      }
+    }
+
+    &:focus:invalid {
+      outline: none;
+      box-shadow: 0 .2em .4em rgba(red, 0.3);
+      border-bottom: 3px solid red;
+    }
+
+    &:focus:valid {
+      outline: none;
+      box-shadow: 0 .2em .4em rgba(#28b485, 0.3);
+      border-bottom: 3px solid #28b485;
+    }
+
+  }
+
+
+  &__label {
+
+    color: black;
+    font-size: 1.1rem;
+    font-weight: 800;
+    margin-bottom: .2em;
+  }
+
+
+}

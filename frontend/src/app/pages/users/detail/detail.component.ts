@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { UsersServiceService } from '../shared/users-service.service';
 
 @Component({
   selector: 'app-detail',
@@ -7,9 +8,14 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private usersService: UsersServiceService) {}
+  users: any;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.usersService.getUsers().subscribe(
+      response => console.log(response)
+    )
+  }
 
   createUser() {
     console.log('hello there');
