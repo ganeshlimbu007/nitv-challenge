@@ -19,6 +19,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    const token = localStorage.getItem('token');
+    if(token) {
+     this.authService.isAlreadyLoggedIn();
+     this.setLoginLogoutText()
+    }
     this.sub = this.authService.authChanged.subscribe((response: any) => {
       this.setLoginLogoutText();
       return;
@@ -32,12 +37,9 @@ export class NavbarComponent implements OnInit, OnDestroy {
   loginOrOut() {
     const isAuthenticated = this.authService.isAuthenticated;
 
-    console.log(isAuthenticated, ' auth');
     if (isAuthenticated) {
       this.authService.logout();
-      console.log('hello there 2');
       this.setLoginLogoutText();
-      console.log('hello there 3');
       this.redirectToUsers();
       return;
     } else {
@@ -54,7 +56,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   setLoginLogoutText() {
-    console.log('logged in', this.authService.isAuthenticated);
     this.loginLogoutText = this.authService.isAuthenticated ? 'Logout' : 'Login';
   }
 }

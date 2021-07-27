@@ -46,7 +46,11 @@ export class AuthServiceService {
     localStorage.setItem('token', '');
     this.isAuthenticated = false;
     this.userAuthChanged(false);
-    console.log('hello there 1');
+  }
+
+  isAlreadyLoggedIn() {
+    this.isAuthenticated = true;
+    this.userAuthChanged(true);
   }
 
   private handleError(error: HttpErrorResponse) {

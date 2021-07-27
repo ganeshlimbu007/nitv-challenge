@@ -5,7 +5,6 @@ import { DetailComponent } from './detail/detail.component';
 import { CreateComponent } from './create/create.component';
 import { UsersComponent } from './users.component';
 import { CanActivateGuard } from './guards/can-activate.guard';
-import { CanDeactivateGuard } from './guards/can-deactivate.guard';
 import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
@@ -25,14 +24,14 @@ const routes: Routes = [
       {
         path: 'create',
         component: CreateComponent,
-       /*  canActivate: [CanActivateGuard],
-        canDeactivate: [CanDeactivateGuard], */
+        canActivate: [CanActivateGuard],
+
       },
       {
         path: ':id/edit',
         component: EditComponent,
-       /*  canActivate: [CanActivateGuard],
-        canDeactivate: [CanDeactivateGuard], */
+       canActivate: [CanActivateGuard],
+
       },
     ],
   },
@@ -41,6 +40,7 @@ const routes: Routes = [
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
+  providers: [CanActivateGuard]
 })
 export class UsersRoutingModule {
   static components = [UsersComponent, DetailComponent, CreateComponent];

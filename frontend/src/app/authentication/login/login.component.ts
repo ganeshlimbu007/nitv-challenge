@@ -34,7 +34,14 @@ export class LoginComponent implements OnInit {
       response =>  {
         const { token, message } = response;
         localStorage.setItem('token', token);
+        if (this.authService.redirectUrl) {
+          console.log('redirect url', this.authService.redirectUrl);
+          const redirectUrl = this.authService.redirectUrl;
+          this.authService.redirectUrl = '';
+          this.router.navigate([redirectUrl]);
+      } else {
         this.redirectToUsers()
+      }
       }
     );
 
