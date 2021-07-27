@@ -1,8 +1,145 @@
-.my-container {
-  margin-top: 1em;
-  min-height: 80vh;
-  background-color: #ffffff;
-  border: solid 1px #ddd;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+img, .img {
+  display: block;
+  max-width: 8rem;
+}
+
+.users {
+  max-width: 70em;
+  margin: 0 auto;
+  padding: 2em;
+  display: grid;
+  gap: 2em;
+}
+
+
+
+.button {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0.5em 3em;
+  text-decoration: none;
+  text-transform: uppercase;
+  color:  #fff;
+  background: #7e47c5;
+  border-radius:  0.75rem;
+}
+
+
+
+
+.user {
+  padding: 1em;
+}
+
+.user > img {
+  border-radius: .75em;
+}
+
+
+.user .name,
+.user .detail,
+.user .contact {
+  margin: 0;
+}
+
+.user .name {
+  font-family: "Podkova", serif;;
+  font-size: 2rem;
+  color: #494949;
+  line-height: 1;
+}
+
+.user .detail {
+  line-height: 1;
+  font-size: 0.75rem;
+}
+
+.user .contact {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+
+.user .button {
+  align-self: end;
+  justify-self: end;
+}
+
+.user {
+  margin-left: auto;
+  margin-right: auto;
+  display: grid;
+  grid-template-areas:
+    "img contact"
+    "name name"
+    "detail detail"
+    "edu edu"
+    "button button";
+  gap: 0.5em;
+  box-shadow:  0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+  border-radius: .75rem;
+}
+
+@media (min-width: 500px) {
+  .user {
+    grid-template-columns: min-content minmax(12rem, 20.5rem);
+    grid-template-rows: min-content min-content 1fr auto;
+    grid-template-areas:
+      "img name"
+      "img detail"
+      "img edu"
+      "contact button";
+
+  }
+}
+@media (min-width: 960px) {
+  .users {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.user img {
+  grid-area: img;
+}
+.user .name {
+  grid-area: name;
+}
+.user .detail {
+  grid-area: detail;
+}
+.user .edu {
+  grid-area: edu;
+}
+.user .contact {
+  grid-area: contact;
+}
+.user .btn {
+  grid-area: button;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: inline-block;
+  padding: 0.15em 0.75em;
+  border-radius: 100vw;
+  margin-right: 0.5em;
+  background:  lightgray;
+  color:  #333;
+}
+
+.tag--contact {
+  padding: 0.25em .5em .0em 0.5em;
+  border-radius: 0;
+  background: #ff7a7a;
+
 }

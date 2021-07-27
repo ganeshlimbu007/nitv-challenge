@@ -10,10 +10,7 @@ exports.getInfo = catchAsync(async (req, res, next) => {
   console.log(userInfos);
 
   res.status(200).json({
-    status: 'Great Success!!!',
-    data: {
-      info: userInfos,
-    },
+    users: userInfos
   });
 });
 

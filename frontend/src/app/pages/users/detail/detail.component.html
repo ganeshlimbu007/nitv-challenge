@@ -1,6 +1,20 @@
-<div class="my-container">
-  <div class="add-department-btn mt-4 mb-4" align="right">
-    <button class="btn btn-primary icon-btn icon-btn-border icon-btn-shadow" (click)="createUser()">create user</button>
+<div class="add-department-btn mt-4 mb-4" align="right">
+  <button class="btn btn-primary icon-btn icon-btn-border icon-btn-shadow" (click)="createUser()">create user</button>
+</div>
+
+<div class="users">
+
+  <div class="user" *ngFor="let user of users">
+    <h2 class="name">{{ user.name}}</h2>
+    <img class="img" src="https://www.onlinekhabar.com/wp-content/uploads/2021/07/rajesh-hamal.jpg" alt="">
+    <p class="detail"><span class="tag">{{user.gender}}</span><span class="tag">{{user.nationality}}</span><span
+        class="tag">{{user.dob}}</span></p>
+    <p class="edu">{{ user.educationBackground[0]}}</p>
+    <ul class="contact">
+      <li class="tag tag--contact">{{user.phone}}</li>
+      <li class="tag tag--contact">{{user.email}}</li>
+    </ul>
+    <button class="button" (click)="createUser()">edit</button>
   </div>
 
 </div>

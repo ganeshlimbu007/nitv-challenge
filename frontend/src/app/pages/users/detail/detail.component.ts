@@ -13,7 +13,11 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.usersService.getUsers().subscribe(
-      response => console.log(response)
+      response =>  {
+        const { users } = response;
+        console.log(users, 'data');
+        this.users = users;
+      }
     )
   }
 
