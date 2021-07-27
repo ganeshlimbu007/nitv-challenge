@@ -6,15 +6,17 @@
 
   <div class="user" *ngFor="let user of users">
     <h2 class="name">{{ user.name}}</h2>
-    <img class="img" src="https://www.onlinekhabar.com/wp-content/uploads/2021/07/rajesh-hamal.jpg" alt="">
+    <img class="img" src={{user.imageUrl}} alt="">
     <p class="detail"><span class="tag">{{user.gender}}</span><span class="tag">{{user.nationality}}</span><span
         class="tag">{{user.dob}}</span></p>
-    <p class="edu">{{ user.educationBackground[0]}}</p>
+
     <ul class="contact">
-      <li class="tag tag--contact">{{user.phone}}</li>
-      <li class="tag tag--contact">{{user.email}}</li>
+      <li class="tag tag--contact" [ngClass]="{'tag--selected': user.preferredModeOfContact === 'phone'}">{{user.phone}}
+      </li>
+      <li class="tag tag--contact" [ngClass]="{'tag--selected': user.preferredModeOfContact === 'email'}">{{user.email}}
+      </li>
     </ul>
-    <button class="button" (click)="createUser()">edit</button>
+    <button class="button" (click)="editUser(user._id)">edit</button>
   </div>
 
 </div>

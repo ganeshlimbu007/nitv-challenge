@@ -6,6 +6,7 @@ import { CreateComponent } from './create/create.component';
 import { UsersComponent } from './users.component';
 import { CanActivateGuard } from './guards/can-activate.guard';
 import { CanDeactivateGuard } from './guards/can-deactivate.guard';
+import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,12 @@ const routes: Routes = [
       {
         path: 'create',
         component: CreateComponent,
+       /*  canActivate: [CanActivateGuard],
+        canDeactivate: [CanDeactivateGuard], */
+      },
+      {
+        path: ':id/edit',
+        component: EditComponent,
        /*  canActivate: [CanActivateGuard],
         canDeactivate: [CanDeactivateGuard], */
       },

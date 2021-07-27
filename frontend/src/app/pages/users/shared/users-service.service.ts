@@ -29,6 +29,19 @@ export class UsersServiceService {
     return this.http.post<any>(this.usersUrl, body, HttpOptions);
   }
 
+  updateUser(user: any, userId: string): Observable<any>  {
+    let body = JSON.stringify(user);
+    return this.http.patch<any>(
+      `${this.usersUrl}/${userId}`,
+      body,
+      HttpOptions
+    );
+  }
+
+  deleteUser(id: string): Observable<any>  {
+    return this.http.delete<any>(`http://localhost:3000/api/users/${id}`);
+  }
+
   private handleError(error: HttpErrorResponse) {
     console.error('server error:', error);
     if (error.error instanceof Error) {

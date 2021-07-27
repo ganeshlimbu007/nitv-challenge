@@ -6,7 +6,7 @@
 
 img, .img {
   display: block;
-  max-width: 8rem;
+  max-width: 12rem;
 }
 
 .users {
@@ -66,6 +66,7 @@ img, .img {
   margin-bottom: 0;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 
 
@@ -139,7 +140,10 @@ img, .img {
 
 .tag--contact {
   padding: 0.25em .5em .0em 0.5em;
-  border-radius: 0;
-  background: #ff7a7a;
+  border-radius: 100vh;
+}
 
+.tag--selected {
+  background: #7e47c5;
+  color: #fff;
 }

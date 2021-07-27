@@ -13,6 +13,10 @@ const infoSchema = new mongoose.Schema({
   image: {
     type: String,
     trim: true,
+  },
+  imageUrl: {
+    type: String,
+    trim: true,
     required: [true, 'must have image'],
   },
   gender: {

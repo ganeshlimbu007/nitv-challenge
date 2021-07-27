@@ -1,0 +1,8 @@
+<div *ngIf="loading" class="loading">
+  <h1>loading!!!</h1>
+</div>
+
+
+<div *ngIf="!loading">
+  <app-user-form [user]="user"></app-user-form>
+</div>

@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload')
 
 const authRoute = require('./routes/authRoute');
 const infoRoute = require('./routes/infoRoute');
@@ -10,11 +11,14 @@ const globalErrorController = require("./controllers/errorController");
 
 const app = express();
 app.use(cors())
+
 app.use(bodyParser.json());
 
+app.use(fileUpload({
+  limits: { fileSize: 50 * 1024 * 1024 },
+  useTempFiles: true
+}));
 
-//middlewares
-app.use(express.json());
 
 //route
 app.use('/api/signin', authRoute);

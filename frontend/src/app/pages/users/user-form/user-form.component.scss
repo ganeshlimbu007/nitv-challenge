@@ -3,6 +3,7 @@
     position: relative;
 
     &:not(:last-child) {
+      margin-top: 2em;
       margin-bottom: 1.4em;
     }
 
@@ -75,4 +76,10 @@
   }
 
 
+}
+.btn {
+  margin-right: 2em;
+}
+.margin-left {
+  margin-left: 2em;
 }
