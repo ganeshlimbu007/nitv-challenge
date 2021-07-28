@@ -12,6 +12,7 @@ import { requiredFileType } from '../shared/custom-validation/requireFileType';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: 'app-user-form',
@@ -38,7 +39,8 @@ export class UserFormComponent implements OnInit {
     private formBuilder: FormBuilder,
     private usersService: UsersServiceService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -123,6 +125,7 @@ export class UserFormComponent implements OnInit {
     if(!this.editMode || this.imageChangedInEdit) {
       if (!image) {
         this.imageError = true;
+        this.invalidError('form invalid !!!');
         return;
       }
 
@@ -130,6 +133,7 @@ export class UserFormComponent implements OnInit {
     }
 
     if(this.userForm.invalid || this.imageError || this.imageInvalid ) {
+      this.invalidError('form invalid !!!');
       return;
     }
     const formData = new FormData();
@@ -151,20 +155,24 @@ export class UserFormComponent implements OnInit {
     if (!this.editMode) {
       this.http.post('http://localhost:3000/api/users', formData).subscribe(
         (response) => {
-          console.log(response);
+          this.successConfirmation('User created');
           this.exit();
         },
-        (error) => console.log(error)
+        (error) =>  {
+          this.errorServerResponse('server error');
+        }
       );
     } else {
       this.http
         .patch(`http://localhost:3000/api/users/${this.user._id}`, formData)
         .subscribe(
           (response) => {
-            console.log(response);
+            this.successConfirmation('User updated');
             this.exit();
           },
-          (error) => console.log(error)
+          (error) =>  {
+            this.errorServerResponse('server error');
+          }
         );
     }
   }
@@ -198,10 +206,12 @@ export class UserFormComponent implements OnInit {
   delete() {
     this.usersService.deleteUser(this.user._id).subscribe(
       (response) => {
-        console.log(response);
+      this.successConfirmation('successfully deleted!')
         this.exit();
       },
-      (error) => console.log(error)
+      (error) => {
+        this.errorServerResponse('server error');
+      }
     );
   }
   exit() {
@@ -245,4 +255,39 @@ export class UserFormComponent implements OnInit {
 
     new Angular2Csv(data, 'user_info', options);
   }
+
+
+  // <--- Toastr messages (START) --->
+  // success confirmation toastr
+  successConfirmation(message: string) {
+    this.toastr.success("Success!!!", message, {
+      timeOut: 2000,
+      positionClass: "toast-top-center",
+      closeButton: true,
+      progressBar: true,
+    });
+  }
+
+  // server error tostr
+  errorServerResponse(error) {
+    this.toastr.error("Failure! Server Error!!", error.message, {
+      timeOut: 0,
+      extendedTimeOut: 0,
+      positionClass: "toast-top-full-width",
+      closeButton: true,
+      progressBar: true,
+    });
+  }
+
+  //  invalid toastr
+  invalidError(message: string) {
+    this.toastr.error("Failure!!!", message, {
+      timeOut: 2000,
+      positionClass: "toast-top-center",
+      closeButton: true,
+      progressBar: true,
+    });
+  }
+
+  // <--- Toastr messages (END) --->
 }

@@ -6,6 +6,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +17,8 @@ import { AppComponent } from './app.component';
     AppRoutingModule, // Main routes for application
     SharedModule, // Shared (multi-instance) objects
     CoreModule, // Singleton objects (services, components that are loaded only once, etc.)
+    ToastrModule.forRoot(),
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

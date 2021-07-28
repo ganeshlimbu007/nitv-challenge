@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~10.0.6",
+    "@angular/animations": "^10.2.5",
     "@angular/common": "~10.0.6",
     "@angular/compiler": "~10.0.6",
     "@angular/core": "~10.0.6",
@@ -21,6 +21,7 @@
     "@angular/router": "~10.0.6",
     "angular2-csv": "^0.2.5",
     "bootstrap": "^5.0.2",
+    "ngx-toastr": "^14.0.0",
     "rxjs": "~6.5.5",
     "save": "^2.4.0",
     "tslib": "^2.0.0",
