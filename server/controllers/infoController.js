@@ -14,7 +14,6 @@ cloudinary.config({
 
 exports.getInfo = catchAsync(async (req, res, next) => {
   const userInfos = await Info.find();
-  console.log(userInfos);
 
   res.status(200).json({
     users: userInfos,
@@ -36,7 +35,6 @@ exports.postInfo = catchAsync(async (req, res, next) => {
       preferredModeOfContact,
     } = req.body;
 
-    console.log(typeof educationBackground);
 
     newInfo = new Info({
       name,
