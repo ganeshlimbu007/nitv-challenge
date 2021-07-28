@@ -13,6 +13,8 @@ export class NavbarComponent implements OnInit, OnDestroy {
   loginLogoutText = 'Login';
   sub: Subscription;
 
+  isShown = false;
+
   constructor(
     private router: Router,
     private authService: AuthServiceService

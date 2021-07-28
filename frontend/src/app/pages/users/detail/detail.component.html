@@ -3,26 +3,34 @@
 </div>
 
 <div class="users">
-
-  <div class="user" *ngFor="let user of users">
-    <h2 class="name">{{ user.name}}</h2>
-    <img class="img" src={{user.imageUrl}} alt="">
-    <p class="detail"><span class="tag">{{user.gender}}</span><span class="tag">{{user.nationality}}</span><span
-        class="tag">{{user.dob}}</span></p>
-
-        <p class="edu">
-          <ng-container *ngFor="let edu of user.educationBackground">
-            <span class="tag tag--edu ">{{edu.education}}</span>
-          </ng-container>
-        </p>
-
-    <ul class="contact">
-      <li class="tag tag--contact" [ngClass]="{'tag--selected': user.preferredModeOfContact === 'phone'}">{{user.phone}}
-      </li>
-      <li class="tag tag--contact" [ngClass]="{'tag--selected': user.preferredModeOfContact === 'email'}">{{user.email}}
-      </li>
-    </ul>
-    <button class="button" (click)="editUser(user._id)">edit</button>
+  <div *ngIf="loading" class="loading">
+    <h1>loading!!!</h1>
   </div>
+
+
+  <ng-container *ngIf="!loading">
+    <div class="user" *ngFor="let user of users">
+      <h2 class="name">{{ user.name}}</h2>
+      <img class="img" src={{user.imageUrl}} alt="">
+      <p class="detail"><span class="tag">{{user.gender}}</span><span class="tag">{{user.nationality}}</span><span
+          class="tag">{{user.dob}}</span></p>
+
+      <p class="edu">
+        <ng-container *ngFor="let edu of user.educationBackground">
+          <span class="tag tag--edu ">{{edu.education}}</span>
+        </ng-container>
+      </p>
+
+      <ul class="contact">
+        <li class="tag tag--contact" [ngClass]="{'tag--selected': user.preferredModeOfContact === 'phone'}">
+          {{user.phone}}
+        </li>
+        <li class="tag tag--contact" [ngClass]="{'tag--selected': user.preferredModeOfContact === 'email'}">
+          {{user.email}}
+        </li>
+      </ul>
+      <button class="button" (click)="editUser(user._id)">edit</button>
+    </div>
+  </ng-container>
 
 </div>

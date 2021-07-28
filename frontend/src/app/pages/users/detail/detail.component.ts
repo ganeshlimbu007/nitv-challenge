@@ -8,6 +8,8 @@ import { UsersServiceService } from '../shared/users-service.service';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
+  loading = true;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -18,8 +20,8 @@ export class DetailComponent implements OnInit {
   ngOnInit(): void {
     this.usersService.getUsers().subscribe((response) => {
       const { users } = response;
-      console.log(users, 'data');
       this.users = users;
+      this.loading = false;
     });
   }
 

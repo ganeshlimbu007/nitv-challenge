@@ -1,10 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Countries } from '../shared/constants/countries';
 import { UsersServiceService } from '../shared/users-service.service';
 import { requiredFileType } from '../shared/custom-validation/requireFileType';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 
 @Component({
   selector: 'app-user-form',
@@ -20,6 +27,13 @@ export class UserFormComponent implements OnInit {
   editMode = false;
 
   selectedFile: any;
+  imageLabel = 'Add image';
+  submitted = false;
+  imageError = false;
+  imageInvalid = false;
+
+  imageChangedInEdit = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private usersService: UsersServiceService,
@@ -34,6 +48,7 @@ export class UserFormComponent implements OnInit {
     if (this.user) {
       this.editMode = true;
       this.patchForm(this.user);
+      this.imageLabel = 'Update Image';
     }
   }
 
@@ -41,10 +56,10 @@ export class UserFormComponent implements OnInit {
     let eduArr = new FormArray([]);
     this.userForm = this.formBuilder.group({
       name: ['', Validators.required],
-      image: [null, [Validators.required, requiredFileType(['png', 'jpg'])]],
+      image: [null],
       gender: [null, Validators.required],
       phone: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       nationality: ['Nepal', Validators.required],
       dob: ['', Validators.required],
       preferredModeOfContact: ['', Validators.required],
@@ -54,7 +69,7 @@ export class UserFormComponent implements OnInit {
 
   private patchForm(user) {
     user.nationality.charAt(0).toUpperCase();
-    console.log( user.nationality);
+    console.log(user.nationality);
     this.userForm.patchValue({
       name: user.name,
       image: null,
@@ -66,17 +81,18 @@ export class UserFormComponent implements OnInit {
       preferredModeOfContact: user.preferredModeOfContact,
     });
 
-    this.user['educationBackground'].forEach(educationBackground => {
+    this.user['educationBackground'].forEach((educationBackground) => {
       (<FormArray>this.userForm.get('edu')).push(
         new FormGroup({
           education: new FormControl(educationBackground.education),
         })
       );
-    })
+    });
   }
 
-
-
+  get formUser() {
+    return this.userForm.controls;
+  }
 
   get eduArray(): FormArray {
     return this.userForm.get('edu') as FormArray;
@@ -99,8 +115,23 @@ export class UserFormComponent implements OnInit {
   }
 
   submitUserInfo() {
-    let body =this.userForm.get('edu').value;
-    console.log(body, 'type ' , typeof(body))
+    console.log(this.userForm.valid, ': validity');
+    this.submitted = true;
+    this.imageError = false;
+    this.imageInvalid = false;
+    const image = this.userForm.get('image').value;
+    if(!this.editMode || this.imageChangedInEdit) {
+      if (!image) {
+        this.imageError = true;
+        return;
+      }
+
+      this.checkExtension();
+    }
+
+    if(this.userForm.invalid || this.imageError || this.imageInvalid ) {
+      return;
+    }
     const formData = new FormData();
     formData.append('name', this.userForm.get('name').value);
     formData.append('image', this.userForm.get('image').value);
@@ -138,6 +169,17 @@ export class UserFormComponent implements OnInit {
     }
   }
 
+  checkExtension() {
+    const file = this.userForm.get('image').value.name;
+    const extension = file.split('.')[1].toLowerCase();
+    if (extension === 'png' || extension === 'jpg') {
+      this.imageInvalid = false;
+      return;
+    }
+    this.imageInvalid = true;
+    return;
+  }
+
   getCountries() {
     return this.countryNames;
   }
@@ -148,6 +190,9 @@ export class UserFormComponent implements OnInit {
     this.userForm.patchValue({
       image: this.selectedFile,
     });
+    if(this.editMode) {
+      this.imageChangedInEdit = true;
+    }
   }
 
   delete() {
@@ -162,5 +207,42 @@ export class UserFormComponent implements OnInit {
   exit() {
     this.router.navigate(['/users']);
   }
-  download() {}
+  download() {
+    this.downloadFileAsCSV();
+  }
+
+  downloadFileAsCSV() {
+    let data = [
+      {
+        name: this.userForm.get('name').value,
+        DOB: this.userForm.get('dob').value,
+        Gender: this.userForm.get('gender').value,
+        Phone: this.userForm.get('phone').value,
+        Email: this.userForm.get('email').value,
+        Nationality: this.userForm.get('nationality').value,
+        Preferred_Mode_Of_Contact: this.userForm.get('preferredModeOfContact')
+          .value,
+      },
+    ];
+    let options: any = {
+      title: 'User Details',
+      fieldSeparator: ',',
+      quoteStrings: '"',
+      decimalseparator: '.',
+      showLabels: true,
+      showTitle: true,
+      useBom: true,
+      headers: [
+        'Name',
+        'DOB',
+        'Gender',
+        'Phone',
+        'Email',
+        'Nationality',
+        'Mode Of Contact',
+      ],
+    };
+
+    new Angular2Csv(data, 'user_info', options);
+  }
 }
